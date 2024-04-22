@@ -1,6 +1,7 @@
 import {html, svg} from "lit";
+import {BatteryCardConfig} from './card';
 
-export function battery(inputs) {
+export function battery(inputs: BatteryCardConfig) {
     const socEntity = inputs.socEntity;
     const kWhEntity = inputs.kWhEntity;
     const colour = inputs.colour;
@@ -17,8 +18,8 @@ export function battery(inputs) {
     const socStr = socEntity ? `${soc}%` : "";
     const kWhStr = kWhEntity ? `(${kWh.toFixed(2)} kWh)` : "";
 
-    const chargingKw = +inputs.chargeW.state;
-    const dischargingKw = +inputs.dischargeW.state;
+    const chargingKw = +inputs.chargeWEntity.state;
+    const dischargingKw = +inputs.dischargeWEntity.state;
 
     const chargingStr = chargingKw > 1000 ? `${(chargingKw / 1000).toFixed(2)} kW` : `${chargingKw.toFixed(0)} W`;
     const dischargingStr = dischargingKw > 1000 ? `${(dischargingKw / 1000).toFixed(2)} kW` : `${dischargingKw.toFixed(0)} W`;
@@ -35,7 +36,6 @@ export function battery(inputs) {
                     xmlns:xlink="http://www.w3.org/1999/xlink"
                     viewBox="-100 0 450 400"
                     width="${inputs.sizePx}"
-                    version="1.1"
             >
                 <defs id="defs4">
                     <linearGradient id="linearGradient4084">

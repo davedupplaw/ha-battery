@@ -1,13 +1,13 @@
 import {css, html, LitElement} from 'lit';
+import { state } from 'lit/decorators/state';
+import {BatteryCardEditorConfig} from './card';
+import {HomeAssistant} from './ha';
 
 export class BatteryCardEditor extends LitElement {
-    static get properties() {
-        return {
-            _hass: {},
-            _config: {state: true},
-        };
-    }
+    @state() private _hass;
+    @state() private _config;
 
+    // noinspection CssUnusedSymbol
     static styles = css`
         .table {
             display: table;
@@ -23,15 +23,15 @@ export class BatteryCardEditor extends LitElement {
         }
     `;
 
-    setConfig(config) {
+    public setConfig(config: BatteryCardEditorConfig) {
         this._config = config;
     }
 
-    set hass(hass) {
+    public set hass(hass: HomeAssistant) {
         this._hass = hass;
     }
 
-    render() {
+    public render() {
         const values = {
             "Header": this._config.header,
             "Preferred Height (px)": this._config.sizePx,
@@ -71,13 +71,13 @@ export class BatteryCardEditor extends LitElement {
         `;
     }
 
-    handleChangedEvent(changedEvent) {
-        // this._config is readonly, copy needed
+    public handleChangedEvent(changedEvent: Event) {
+        const details = (changedEvent as any).detail;
+        const target = changedEvent.target as HTMLFormElement;
         const newConfig = Object.assign({}, this._config);
 
-        const values = changedEvent.detail.value;
-
-        newConfig.header = changedEvent.target.value;
+        const values = details.value;
+        newConfig.header = target.value;
         newConfig.socEntity = values["Battery SOC (%) Sensor"];
         newConfig.kWhEntity = values["Battery SOC (kWh) Sensor"];
         newConfig.chargeWEntity = values["Battery Charge Rate (W) Sensor"];
