@@ -46,9 +46,6 @@ red up to 25%, orange up to 50% and green up to 100%.
 
 ## TODO:
 
-* (done) Convert to Typescript
-* (done) Work out how to add to HACS
-* Start using semver releases
 * Add support for single charge/discharge sensor
 * Add robustness against missing sensors
 * Add toggle options for some of the display elements
