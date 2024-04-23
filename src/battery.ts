@@ -38,8 +38,8 @@ export function battery(inputs: BatteryCardConfig): TemplateResult<1> {
 	let dischargingDeltaStr: TemplateResult<2> | "" = "";
 
 	if (chargingKw && dischargingKw) {
-		chargingDeltaStr = chargingKw > dischargingKw ? svg`<polygon points="144,460 136,472 152,472" class="delta-up"/>` : ``;
-		dischargingDeltaStr = dischargingKw > chargingKw ? svg`<polygon points="144,472 136,460 152,460" class="delta-down"/>` : ``;
+		chargingDeltaStr = +chargingKw > +dischargingKw ? svg`<polygon points="144,460 136,472 152,472" class="delta-up"/>` : ``;
+		dischargingDeltaStr = +dischargingKw > +chargingKw ? svg`<polygon points="144,472 136,460 152,460" class="delta-down"/>` : ``;
 	}
 
 	const showSocInBattery = inputs.showSocInBattery;

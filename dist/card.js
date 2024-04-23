@@ -1286,8 +1286,8 @@ function $40c73a7282756518$export$3866196f8b775770(inputs) {
     let chargingDeltaStr = "";
     let dischargingDeltaStr = "";
     if (chargingKw && dischargingKw) {
-        chargingDeltaStr = chargingKw > dischargingKw ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<polygon points="144,460 136,472 152,472" class="delta-up"/>` : ``;
-        dischargingDeltaStr = dischargingKw > chargingKw ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<polygon points="144,472 136,460 152,460" class="delta-down"/>` : ``;
+        chargingDeltaStr = +chargingKw > +dischargingKw ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<polygon points="144,460 136,472 152,472" class="delta-up"/>` : ``;
+        dischargingDeltaStr = +dischargingKw > +chargingKw ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<polygon points="144,472 136,460 152,460" class="delta-down"/>` : ``;
     }
     const showSocInBattery = inputs.showSocInBattery;
     const chargingAniDuration = 1.2 - $40c73a7282756518$var$easeInOutCubic(Math.min(+chargingKw, 2000) / 2000);
