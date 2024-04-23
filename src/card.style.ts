@@ -53,7 +53,10 @@ export default css`
         text.inBattSoc {
             text-anchor: middle;
             fill: white;
-            font-size: 150%;
+            font-size: 170%;
+			font-weight: bold;
+			stroke: black;
+			stroke-width: 0.5px;
         }
     }
 

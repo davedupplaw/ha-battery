@@ -1227,7 +1227,10 @@ var $b771d3736a62c4bc$export$2e2bcd8739ae039 = (0, $def2de46b9306e8a$export$dbf3
         text.inBattSoc {
             text-anchor: middle;
             fill: white;
-            font-size: 150%;
+            font-size: 170%;
+			font-weight: bold;
+			stroke: black;
+			stroke-width: 0.5px;
         }
     }
 
