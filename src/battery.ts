@@ -1,35 +1,44 @@
-import {html, svg} from "lit";
-import {BatteryCardConfig} from './card';
+import {html, svg, TemplateResult} from "lit";
+import {BatteryCardConfig, CardEntity} from './card';
 
-export function battery(inputs: BatteryCardConfig) {
-    const socEntity = inputs.socEntity;
-    const kWhEntity = inputs.kWhEntity;
-    const colour = inputs.colour;
+function toWStr(x: number): string {
+	return x > 1000 ? `${(x / 1000).toFixed(2)} kW` : `${x.toFixed(0)} W`;
+}
 
-    const soc = +socEntity.state;
-    const kWh = +kWhEntity.state;
+export function battery(inputs: BatteryCardConfig): TemplateResult<1> {
+	const socEntity: CardEntity = inputs.socEntity;
+	const kWhEntity: CardEntity = inputs.kWhEntity;
+	const colour: string = inputs.colour;
 
-    const minPos = 465;
-    const maxPos = 775;
-    const height = maxPos - minPos;
-    const size = (+soc / 100) * height;
-    const topPos = maxPos - size;
+	const soc: number = +socEntity.state;
+	const kWh: string | undefined = kWhEntity?.state;
 
-    const socStr = soc ? `${soc}%` : "";
-    const kWhStr = kWh ? `(${kWh.toFixed(2)} kWh)` : "";
+	const minPos: number = 465;
+	const maxPos: number = 775;
+	const height: number = maxPos - minPos;
+	const size: number = (+soc / 100) * height;
+	const topPos: number = maxPos - size;
 
-    const chargingKw = +inputs.chargeWEntity.state;
-    const dischargingKw = +inputs.dischargeWEntity.state;
+	const socStr: string = soc ? `${soc}%` : "";
+	const kWhStr: string = kWh ? `(${(+kWh).toFixed(2)} kWh)` : "";
 
-    const chargingStr = chargingKw > 1000 ? `${(chargingKw / 1000).toFixed(2)} kW` : `${chargingKw.toFixed(0)} W`;
-    const dischargingStr = dischargingKw > 1000 ? `${(dischargingKw / 1000).toFixed(2)} kW` : `${dischargingKw.toFixed(0)} W`;
+	const chargingKw: string | undefined = inputs.chargeWEntity?.state;
+	const dischargingKw: string | undefined = inputs.dischargeWEntity?.state;
 
-    const chargingDeltaStr = chargingKw > dischargingKw ? svg`<polygon points="144,460 136,472 152,472" class="delta-up"/>` : ``;
-    const dischargingDeltaStr = dischargingKw > chargingKw ? svg`<polygon points="144,472 136,460 152,460" class="delta-down"/>` : ``;
+	const chargingStr: string = chargingKw ? toWStr(+chargingKw) : "";
+	const dischargingStr: string = dischargingKw ? toWStr(+dischargingKw) : "";
 
-    // console.log("Battery state:", soc, kWh, chargingKw, dischargingKw);
+	let chargingDeltaStr: TemplateResult<2> | "" = "";
+	let dischargingDeltaStr: TemplateResult<2> | "" = "";
 
-    return html`
+	if (chargingKw && dischargingKw) {
+		chargingDeltaStr = chargingKw > dischargingKw ? svg`<polygon points="144,460 136,472 152,472" class="delta-up"/>` : ``;
+		dischargingDeltaStr = dischargingKw > chargingKw ? svg`<polygon points="144,472 136,460 152,460" class="delta-down"/>` : ``;
+	}
+
+	// console.log("Battery state:", soc, kWh, chargingKw, dischargingKw);
+
+	return html`
         <div class="wrapper">
             <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -136,12 +145,12 @@ export function battery(inputs: BatteryCardConfig) {
                             x1="722.21"
                     />
                 </defs>
-                <g class="out" style="opacity: ${dischargingKw > 0 ? 1 : 0}">
+                <g class="out" style="opacity: ${+dischargingKw > 0 ? 1 : 0}">
                     <line x1="220" y1="300" x2="330" y2="300" stroke="#000" stroke-width="10"/>
                     <text x="230" y="330" font-size="20" class="label">Discharging</text>
                     <text x="230" y="280" font-size="20" class="value">${dischargingStr}</text>
                 </g>
-                <g class="in" style="opacity: ${chargingKw > 0 ? 1 : 0}">
+                <g class="in" style="opacity: ${+chargingKw > 0 ? 1 : 0}">
                     <line x1="-80" y1="300" x2="25" y2="300" stroke="#000" stroke-width="10"/>
                     <text x="15" y="330" font-size="20" class="label">Charging</text>
                     <text x="15" y="280" font-size="20" class="value">${chargingStr}</text>
@@ -222,5 +231,5 @@ export function battery(inputs: BatteryCardConfig) {
             </svg>
             <div class="charge">Charge: ${socStr} <span>${kWhStr}</span></div>
         </div>
-    `;
+	`;
 }

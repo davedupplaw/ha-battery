@@ -1,11 +1,11 @@
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, TemplateResult} from 'lit';
 import { state } from 'lit/decorators/state';
 import {BatteryCardEditorConfig} from './card';
 import {HomeAssistant} from './ha';
 
 export class BatteryCardEditor extends LitElement {
-    @state() private _hass;
-    @state() private _config;
+    @state() private _hass: HomeAssistant;
+    @state() private _config: BatteryCardEditorConfig;
 
     // noinspection CssUnusedSymbol
     static styles = css`
@@ -23,15 +23,17 @@ export class BatteryCardEditor extends LitElement {
         }
     `;
 
-    public setConfig(config: BatteryCardEditorConfig) {
+    // noinspection JSUnusedGlobalSymbols
+    public setConfig(config: BatteryCardEditorConfig): void {
         this._config = config;
     }
 
+    // noinspection JSUnusedGlobalSymbols
     public set hass(hass: HomeAssistant) {
         this._hass = hass;
     }
 
-    public render() {
+    public render(): TemplateResult<1> {
         const values = {
             "Header": this._config.header,
             "Preferred Height (px)": this._config.sizePx,
@@ -71,10 +73,10 @@ export class BatteryCardEditor extends LitElement {
         `;
     }
 
-    public handleChangedEvent(changedEvent: Event) {
+    public handleChangedEvent(changedEvent: Event): void {
         const details = (changedEvent as any).detail;
-        const target = changedEvent.target as HTMLFormElement;
-        const newConfig = Object.assign({}, this._config);
+        const target: HTMLFormElement = changedEvent.target as HTMLFormElement;
+        const newConfig: BatteryCardEditorConfig = Object.assign({}, this._config);
 
         const values = details.value;
         newConfig.header = target.value;

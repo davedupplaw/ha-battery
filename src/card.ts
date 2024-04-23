@@ -1,4 +1,4 @@
-import {html, LitElement} from 'lit';
+import {html, LitElement, TemplateResult} from 'lit';
 import {state} from "lit/decorators/state";
 import styles from './card.style';
 import {battery} from "./battery";
@@ -32,7 +32,7 @@ export interface BatteryCardConfig {
 
 export class BatteryCard extends LitElement {
 	static styles = styles;
-	@state() private _config;
+	@state() private _config: BatteryCardEditorConfig;
 	@state() private _header: string | undefined;
 	@state() private _socEntity: CardEntity | undefined;
 	@state() private _kWhEntity: CardEntity | undefined;
@@ -40,7 +40,7 @@ export class BatteryCard extends LitElement {
 	@state() private _chargeWEntity: CardEntity | undefined;
 	@state() private _colour: string | undefined;
 
-	_hass: HomeAssistant;
+	private _hass: HomeAssistant;
 
 	public set hass(hass: HomeAssistant) {
 		this._hass = hass;
@@ -57,11 +57,13 @@ export class BatteryCard extends LitElement {
 		this._colour = (cols.find(col => col.upto >= +this._socEntity.state) || cols[cols.length - 1]).colour;
 	}
 
-	static getConfigElement() {
+	// noinspection JSUnusedGlobalSymbols
+	static getConfigElement(): HTMLElement {
 		return document.createElement("battery-card-editor");
 	}
 
-	static getStubConfig() {
+	// noinspection JSUnusedGlobalSymbols
+	static getStubConfig(): BatteryCardEditorConfig {
 		return {
 			socEntity: "",
 			kWhEntity: "",
@@ -79,7 +81,7 @@ export class BatteryCard extends LitElement {
 	}
 
 	// noinspection JSUnusedGlobalSymbols
-	public setConfig(config: BatteryCardEditorConfig) {
+	public setConfig(config: BatteryCardEditorConfig): void {
 		this._config = config;
 		this._header = config.header === "" ? undefined : config.header;
 		this._socEntity = config.socEntity === "" ? undefined : this.toEntity(config.socEntity);
@@ -91,8 +93,8 @@ export class BatteryCard extends LitElement {
 		if (this._hass) this.hass = this._hass
 	}
 
-	render() {
-		const content = !this._socEntity?.state
+	render(): TemplateResult<1> {
+		const content: TemplateResult<1> = !this._socEntity?.state
 			? html` <p class="error">${this._socEntity?.name} is unavailable.</p> `
 			: battery({
 				socEntity: this._socEntity,
