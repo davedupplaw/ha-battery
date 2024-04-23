@@ -6,7 +6,7 @@ export default css`
     .error {
         color: red;
     }
-    
+
     .wrapper {
         display: flex;
         flex-direction: column;
@@ -17,7 +17,7 @@ export default css`
 
     svg {
         flex: 0;
-        
+
         g.in {
             line {
                 stroke-dasharray: 10px;
@@ -25,12 +25,13 @@ export default css`
                 stroke-dashoffset: 20px;
                 animation: stroke 0.5s linear infinite;
             }
+
             text {
                 fill: cadetblue;
                 text-anchor: end;
             }
         }
-        
+
         g.out {
             line {
                 stroke-dasharray: 10px;
@@ -38,14 +39,21 @@ export default css`
                 stroke-dashoffset: 20px;
                 animation: stroke 0.5s linear infinite;
             }
+
             text {
                 fill: cadetblue;
             }
         }
-        
+
         polygon.delta-up, polygon.delta-down {
             fill: white;
             animation: flash 1s linear infinite;
+        }
+
+        text.inBattSoc {
+            text-anchor: middle;
+            fill: white;
+            font-size: 150%;
         }
     }
 
@@ -54,7 +62,7 @@ export default css`
             stroke-dashoffset: 0;
         }
     }
-    
+
     @keyframes flash {
         0%, 100% {
             opacity: 1;
@@ -63,7 +71,7 @@ export default css`
             opacity: 0;
         }
     }
-    
+
     .charge {
         font-size: 16px;
     }

@@ -187,8 +187,9 @@
                         d="m214.52 773.67s-4.7077 4.4108-7.066 4.4108-7.066-4.4108-7.066-4.4108v-308.75s4.7077-4.4108 7.066-4.4108 7.066 4.4108 7.066 4.4108z"
                         fill="url(#linearGradient4800)"
                 />
-                <polygon points="134,472 126,460 142,460" class="delta-down"/>
-                <polygon points="154,460 146,472 162,472" class="delta-up"/>
+                <text x="144" y="472" text-anchor="middle" fill="white" dy="0.8em" font-size="150%">80%</text>
+                <polygon points="144,472 136,460 152,460" class="delta-down"/>
+                <polygon points="144,460 136,472 152,472" class="delta-up"/>
             </g>
         </g>
     </g>

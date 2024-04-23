@@ -1174,12 +1174,13 @@ function $9cd908ed2625c047$export$d541bacb2bda4494(n) {
 
 
 
+// noinspection CssUnusedSymbol
 
 var $b771d3736a62c4bc$export$2e2bcd8739ae039 = (0, $def2de46b9306e8a$export$dbf350e5966cf602)`
     .error {
         color: red;
     }
-    
+
     .wrapper {
         display: flex;
         flex-direction: column;
@@ -1190,7 +1191,7 @@ var $b771d3736a62c4bc$export$2e2bcd8739ae039 = (0, $def2de46b9306e8a$export$dbf3
 
     svg {
         flex: 0;
-        
+
         g.in {
             line {
                 stroke-dasharray: 10px;
@@ -1198,12 +1199,13 @@ var $b771d3736a62c4bc$export$2e2bcd8739ae039 = (0, $def2de46b9306e8a$export$dbf3
                 stroke-dashoffset: 20px;
                 animation: stroke 0.5s linear infinite;
             }
+
             text {
                 fill: cadetblue;
                 text-anchor: end;
             }
         }
-        
+
         g.out {
             line {
                 stroke-dasharray: 10px;
@@ -1211,14 +1213,21 @@ var $b771d3736a62c4bc$export$2e2bcd8739ae039 = (0, $def2de46b9306e8a$export$dbf3
                 stroke-dashoffset: 20px;
                 animation: stroke 0.5s linear infinite;
             }
+
             text {
                 fill: cadetblue;
             }
         }
-        
+
         polygon.delta-up, polygon.delta-down {
             fill: white;
             animation: flash 1s linear infinite;
+        }
+
+        text.inBattSoc {
+            text-anchor: middle;
+            fill: white;
+            font-size: 150%;
         }
     }
 
@@ -1227,7 +1236,7 @@ var $b771d3736a62c4bc$export$2e2bcd8739ae039 = (0, $def2de46b9306e8a$export$dbf3
             stroke-dashoffset: 0;
         }
     }
-    
+
     @keyframes flash {
         0%, 100% {
             opacity: 1;
@@ -1236,7 +1245,7 @@ var $b771d3736a62c4bc$export$2e2bcd8739ae039 = (0, $def2de46b9306e8a$export$dbf3
             opacity: 0;
         }
     }
-    
+
     .charge {
         font-size: 16px;
     }
@@ -1249,25 +1258,33 @@ var $b771d3736a62c4bc$export$2e2bcd8739ae039 = (0, $def2de46b9306e8a$export$dbf3
 
 
 
+function $40c73a7282756518$var$toWStr(x) {
+    return x > 1000 ? `${(x / 1000).toFixed(2)} kW` : `${x.toFixed(0)} W`;
+}
 function $40c73a7282756518$export$3866196f8b775770(inputs) {
     const socEntity = inputs.socEntity;
     const kWhEntity = inputs.kWhEntity;
     const colour = inputs.colour;
     const soc = +socEntity.state;
-    const kWh = +kWhEntity.state;
+    const kWh = kWhEntity?.state;
     const minPos = 465;
     const maxPos = 775;
     const height = maxPos - minPos;
     const size = +soc / 100 * height;
     const topPos = maxPos - size;
-    const socStr = socEntity ? `${soc}%` : "";
-    const kWhStr = kWhEntity ? `(${kWh.toFixed(2)} kWh)` : "";
-    const chargingKw = +inputs.chargeWEntity.state;
-    const dischargingKw = +inputs.dischargeWEntity.state;
-    const chargingStr = chargingKw > 1000 ? `${(chargingKw / 1000).toFixed(2)} kW` : `${chargingKw.toFixed(0)} W`;
-    const dischargingStr = dischargingKw > 1000 ? `${(dischargingKw / 1000).toFixed(2)} kW` : `${dischargingKw.toFixed(0)} W`;
-    const chargingDeltaStr = chargingKw > dischargingKw ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<polygon points="144,460 136,472 152,472" class="delta-up"/>` : ``;
-    const dischargingDeltaStr = dischargingKw > chargingKw ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<polygon points="144,472 136,460 152,460" class="delta-down"/>` : ``;
+    const socStr = soc ? `${soc}%` : "";
+    const kWhStr = kWh ? `(${(+kWh).toFixed(2)} kWh)` : "";
+    const chargingKw = inputs.chargeWEntity?.state;
+    const dischargingKw = inputs.dischargeWEntity?.state;
+    const chargingStr = chargingKw ? $40c73a7282756518$var$toWStr(+chargingKw) : "";
+    const dischargingStr = dischargingKw ? $40c73a7282756518$var$toWStr(+dischargingKw) : "";
+    let chargingDeltaStr = "";
+    let dischargingDeltaStr = "";
+    if (chargingKw && dischargingKw) {
+        chargingDeltaStr = chargingKw > dischargingKw ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<polygon points="144,460 136,472 152,472" class="delta-up"/>` : ``;
+        dischargingDeltaStr = dischargingKw > chargingKw ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<polygon points="144,472 136,460 152,460" class="delta-down"/>` : ``;
+    }
+    const showSocInBattery = inputs.showSocInBattery;
     // console.log("Battery state:", soc, kWh, chargingKw, dischargingKw);
     return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
         <div class="wrapper">
@@ -1276,7 +1293,6 @@ function $40c73a7282756518$export$3866196f8b775770(inputs) {
                     xmlns:xlink="http://www.w3.org/1999/xlink"
                     viewBox="-100 0 450 400"
                     width="${inputs.sizePx}"
-                    version="1.1"
             >
                 <defs id="defs4">
                     <linearGradient id="linearGradient4084">
@@ -1377,12 +1393,12 @@ function $40c73a7282756518$export$3866196f8b775770(inputs) {
                             x1="722.21"
                     />
                 </defs>
-                <g class="out" style="opacity: ${dischargingKw > 0 ? 1 : 0}">
+                <g class="out" style="opacity: ${+dischargingKw > 0 ? 1 : 0}">
                     <line x1="220" y1="300" x2="330" y2="300" stroke="#000" stroke-width="10"/>
                     <text x="230" y="330" font-size="20" class="label">Discharging</text>
                     <text x="230" y="280" font-size="20" class="value">${dischargingStr}</text>
                 </g>
-                <g class="in" style="opacity: ${chargingKw > 0 ? 1 : 0}">
+                <g class="in" style="opacity: ${+chargingKw > 0 ? 1 : 0}">
                     <line x1="-80" y1="300" x2="25" y2="300" stroke="#000" stroke-width="10"/>
                     <text x="15" y="330" font-size="20" class="label">Charging</text>
                     <text x="15" y="280" font-size="20" class="value">${chargingStr}</text>
@@ -1455,6 +1471,7 @@ function $40c73a7282756518$export$3866196f8b775770(inputs) {
                                     d="m214.52 773.67s-4.7077 4.4108-7.066 4.4108-7.066-4.4108-7.066-4.4108v-308.75s4.7077-4.4108 7.066-4.4108 7.066 4.4108 7.066 4.4108z"
                                     fill="url(#linearGradient4800)"
                             />
+                            <text x="144" y="${topPos}" class="inBattSoc" dy="0.8em" opacity="${showSocInBattery ? 1 : 0}">${socStr}</text>
                             ${chargingDeltaStr}
                             ${dischargingDeltaStr}
                         </g>
@@ -1463,38 +1480,13 @@ function $40c73a7282756518$export$3866196f8b775770(inputs) {
             </svg>
             <div class="charge">Charge: ${socStr} <span>${kWhStr}</span></div>
         </div>
-    `;
+	`;
 }
 
 
 class $a399cc6bbb0eb26a$export$6c09f32188f2c974 extends (0, $ab210b2da7b39b9d$export$3f2f9f5909897157) {
     static{
         this.styles = (0, $b771d3736a62c4bc$export$2e2bcd8739ae039);
-    }
-    static getConfigElement() {
-        return document.createElement("battery-card-editor");
-    }
-    static getStubConfig() {
-        return {
-            socEntity: "",
-            kWhEntity: "",
-            dischargeWEntity: "",
-            chargeWEntity: "",
-            header: "Battery",
-            colours: "25:#aa0000,50:#ffaa00,100:#00ff00",
-            sizePx: 200
-        };
-    }
-    // noinspection JSUnusedGlobalSymbols
-    setConfig(config) {
-        this._config = config;
-        this._header = config.header === "" ? undefined : config.header;
-        this._socEntity = config.socEntity === "" ? undefined : this.toEntity(config.socEntity);
-        this._kWhEntity = config.kWhEntity === "" ? undefined : this.toEntity(config.kWhEntity);
-        this._dischargeWEntity = config.dischargeWEntity === "" ? undefined : this.toEntity(config.dischargeWEntity);
-        this._chargeWEntity = config.chargeWEntity === "" ? undefined : this.toEntity(config.chargeWEntity);
-        console.log("Battery config updates:", config);
-        if (this._hass) this.hass = this._hass;
     }
     set hass(hass) {
         this._hass = hass;
@@ -1511,6 +1503,50 @@ class $a399cc6bbb0eb26a$export$6c09f32188f2c974 extends (0, $ab210b2da7b39b9d$ex
         });
         this._colour = (cols.find((col)=>col.upto >= +this._socEntity.state) || cols[cols.length - 1]).colour;
     }
+    // noinspection JSUnusedGlobalSymbols
+    static getConfigElement() {
+        return document.createElement("battery-card-editor");
+    }
+    // noinspection JSUnusedGlobalSymbols
+    static getStubConfig() {
+        return {
+            socEntity: "",
+            kWhEntity: "",
+            dischargeWEntity: "",
+            chargeWEntity: "",
+            header: "Battery",
+            colours: "25:#aa0000,50:#ffaa00,100:#00ff00",
+            sizePx: 200,
+            showSocInBattery: true
+        };
+    }
+    // noinspection JSUnusedGlobalSymbols
+    setConfig(config) {
+        this._config = config;
+        this._header = config.header === "" ? undefined : config.header;
+        this._socEntity = config.socEntity === "" ? undefined : this.toEntity(config.socEntity);
+        this._kWhEntity = config.kWhEntity === "" ? undefined : this.toEntity(config.kWhEntity);
+        this._dischargeWEntity = config.dischargeWEntity === "" ? undefined : this.toEntity(config.dischargeWEntity);
+        this._chargeWEntity = config.chargeWEntity === "" ? undefined : this.toEntity(config.chargeWEntity);
+        console.log("Battery config updates:", config);
+        if (this._hass) this.hass = this._hass;
+    }
+    render() {
+        const content = !this._socEntity?.state ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <p class="error">${this._socEntity?.name} is unavailable.</p> ` : (0, $40c73a7282756518$export$3866196f8b775770)({
+            socEntity: this._socEntity,
+            kWhEntity: this._kWhEntity,
+            colour: this._colour,
+            dischargeWEntity: this._dischargeWEntity,
+            chargeWEntity: this._chargeWEntity,
+            sizePx: this._config.sizePx,
+            showSocInBattery: this._config.showSocInBattery
+        });
+        return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+            <ha-card header="${this._header}">
+                <div class="card-content">${content}</div>
+            </ha-card>
+		`;
+    }
     toEntity(entityName) {
         return {
             sensor: entityName,
@@ -1525,21 +1561,6 @@ class $a399cc6bbb0eb26a$export$6c09f32188f2c974 extends (0, $ab210b2da7b39b9d$ex
         return {
             ...entity
         };
-    }
-    render() {
-        const content = !this._socEntity?.state ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <p class="error">${this._socEntity?.name} is unavailable.</p> ` : (0, $40c73a7282756518$export$3866196f8b775770)({
-            socEntity: this._socEntity,
-            kWhEntity: this._kWhEntity,
-            colour: this._colour,
-            dischargeWEntity: this._dischargeWEntity,
-            chargeWEntity: this._chargeWEntity,
-            sizePx: this._config.sizePx
-        });
-        return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
-            <ha-card header="${this._header}">
-                <div class="card-content">${content}</div>
-            </ha-card>
-        `;
     }
 }
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
@@ -1570,6 +1591,7 @@ class $a399cc6bbb0eb26a$export$6c09f32188f2c974 extends (0, $ab210b2da7b39b9d$ex
 
 class $d067581fc0d59830$export$40be632222f2f3fe extends (0, $ab210b2da7b39b9d$export$3f2f9f5909897157) {
     static{
+        // noinspection CssUnusedSymbol
         this.styles = (0, $def2de46b9306e8a$export$dbf350e5966cf602)`
         .table {
             display: table;
@@ -1585,9 +1607,11 @@ class $d067581fc0d59830$export$40be632222f2f3fe extends (0, $ab210b2da7b39b9d$ex
         }
     `;
     }
+    // noinspection JSUnusedGlobalSymbols
     setConfig(config) {
         this._config = config;
     }
+    // noinspection JSUnusedGlobalSymbols
     set hass(hass) {
         this._hass = hass;
     }
@@ -1647,10 +1671,11 @@ class $d067581fc0d59830$export$40be632222f2f3fe extends (0, $ab210b2da7b39b9d$ex
         `;
     }
     handleChangedEvent(changedEvent) {
-        // this._config is readonly, copy needed
+        const details = changedEvent.detail;
+        const target = changedEvent.target;
         const newConfig = Object.assign({}, this._config);
-        const values = changedEvent.detail.value;
-        newConfig.header = changedEvent.target.value;
+        const values = details.value;
+        newConfig.header = target.value;
         newConfig.socEntity = values["Battery SOC (%) Sensor"];
         newConfig.kWhEntity = values["Battery SOC (kWh) Sensor"];
         newConfig.chargeWEntity = values["Battery Charge Rate (W) Sensor"];

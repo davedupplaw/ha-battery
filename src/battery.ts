@@ -36,6 +36,8 @@ export function battery(inputs: BatteryCardConfig): TemplateResult<1> {
 		dischargingDeltaStr = dischargingKw > chargingKw ? svg`<polygon points="144,472 136,460 152,460" class="delta-down"/>` : ``;
 	}
 
+	const showSocInBattery = inputs.showSocInBattery;
+
 	// console.log("Battery state:", soc, kWh, chargingKw, dischargingKw);
 
 	return html`
@@ -223,6 +225,7 @@ export function battery(inputs: BatteryCardConfig): TemplateResult<1> {
                                     d="m214.52 773.67s-4.7077 4.4108-7.066 4.4108-7.066-4.4108-7.066-4.4108v-308.75s4.7077-4.4108 7.066-4.4108 7.066 4.4108 7.066 4.4108z"
                                     fill="url(#linearGradient4800)"
                             />
+                            <text x="144" y="${topPos}" class="inBattSoc" dy="0.8em" opacity="${showSocInBattery ? 1: 0}">${socStr}</text>
                             ${chargingDeltaStr}
                             ${dischargingDeltaStr}
                         </g>

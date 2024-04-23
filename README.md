@@ -25,6 +25,7 @@ Can be installed via HACS by adding the repository URL to the custom repositorie
 | chargeWEntity    | sensor |              | The sensor that provides the charge power of the battery in W             |
 | sizePx           | number | 200          | The preferred height of the card in pixels                                |
 | colours          | string |              | The colours to use for the battery states. See below for details          |
+| showSocInBattery | boolean| true         | Whether to show the SOC in the battery itself                             |
 
 ### Battery State Colours
 

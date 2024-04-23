@@ -18,6 +18,7 @@ export interface BatteryCardEditorConfig {
 	chargeWEntity: string;
 	colours: string;
 	sizePx: number;
+	showSocInBattery: boolean;
 }
 
 export interface BatteryCardConfig {
@@ -28,6 +29,7 @@ export interface BatteryCardConfig {
 	chargeWEntity: CardEntity;
 	colour: string;
 	sizePx: number;
+	showSocInBattery: boolean;
 }
 
 export class BatteryCard extends LitElement {
@@ -71,7 +73,8 @@ export class BatteryCard extends LitElement {
 			chargeWEntity: "",
 			header: "Battery",
 			colours: "25:#aa0000,50:#ffaa00,100:#00ff00",
-			sizePx: 200
+			sizePx: 200,
+			showSocInBattery: true
 			//     [
 			//     {upto: 100, colour: '#00ff00'},
 			//     {upto: 50, colour: '#ffaa00'},
@@ -102,7 +105,8 @@ export class BatteryCard extends LitElement {
 				colour: this._colour,
 				dischargeWEntity: this._dischargeWEntity,
 				chargeWEntity: this._chargeWEntity,
-				sizePx: this._config.sizePx
+				sizePx: this._config.sizePx,
+				showSocInBattery: this._config.showSocInBattery
 			});
 
 		return html`
