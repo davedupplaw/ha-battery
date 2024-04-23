@@ -23,7 +23,6 @@ export default css`
                 stroke-dasharray: 10px;
                 stroke: cadetblue;
                 stroke-dashoffset: 20px;
-                animation: stroke 0.5s linear infinite;
             }
 
             text {
@@ -37,7 +36,6 @@ export default css`
                 stroke-dasharray: 10px;
                 stroke: cadetblue;
                 stroke-dashoffset: 20px;
-                animation: stroke 0.5s linear infinite;
             }
 
             text {

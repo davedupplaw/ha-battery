@@ -1197,7 +1197,6 @@ var $b771d3736a62c4bc$export$2e2bcd8739ae039 = (0, $def2de46b9306e8a$export$dbf3
                 stroke-dasharray: 10px;
                 stroke: cadetblue;
                 stroke-dashoffset: 20px;
-                animation: stroke 0.5s linear infinite;
             }
 
             text {
@@ -1211,7 +1210,6 @@ var $b771d3736a62c4bc$export$2e2bcd8739ae039 = (0, $def2de46b9306e8a$export$dbf3
                 stroke-dasharray: 10px;
                 stroke: cadetblue;
                 stroke-dashoffset: 20px;
-                animation: stroke 0.5s linear infinite;
             }
 
             text {
@@ -1265,6 +1263,9 @@ var $b771d3736a62c4bc$export$2e2bcd8739ae039 = (0, $def2de46b9306e8a$export$dbf3
 function $40c73a7282756518$var$toWStr(x) {
     return x > 1000 ? `${(x / 1000).toFixed(2)} kW` : `${x.toFixed(0)} W`;
 }
+function $40c73a7282756518$var$easeInOutCubic(x) {
+    return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+}
 function $40c73a7282756518$export$3866196f8b775770(inputs) {
     const socEntity = inputs.socEntity;
     const kWhEntity = inputs.kWhEntity;
@@ -1289,6 +1290,8 @@ function $40c73a7282756518$export$3866196f8b775770(inputs) {
         dischargingDeltaStr = dischargingKw > chargingKw ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<polygon points="144,472 136,460 152,460" class="delta-down"/>` : ``;
     }
     const showSocInBattery = inputs.showSocInBattery;
+    const chargingAniDuration = 1.2 - $40c73a7282756518$var$easeInOutCubic(Math.min(+chargingKw, 2000) / 2000);
+    const dischargingAniDuration = 1.2 - $40c73a7282756518$var$easeInOutCubic(Math.min(+dischargingKw, 2000) / 2000);
     // console.log("Battery state:", soc, kWh, chargingKw, dischargingKw);
     return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
         <div class="wrapper">
@@ -1398,12 +1401,14 @@ function $40c73a7282756518$export$3866196f8b775770(inputs) {
                     />
                 </defs>
                 <g class="out" style="opacity: ${+dischargingKw > 0 ? 1 : 0}">
-                    <line x1="220" y1="300" x2="330" y2="300" stroke="#000" stroke-width="10"/>
+                    <line x1="220" y1="300" x2="330" y2="300" stroke="#000" stroke-width="10" 
+						  style="animation: stroke ${dischargingAniDuration}s linear infinite;"/>
                     <text x="230" y="330" font-size="20" class="label">Discharging</text>
                     <text x="230" y="280" font-size="20" class="value">${dischargingStr}</text>
                 </g>
                 <g class="in" style="opacity: ${+chargingKw > 0 ? 1 : 0}">
-                    <line x1="-80" y1="300" x2="25" y2="300" stroke="#000" stroke-width="10"/>
+                    <line x1="-80" y1="300" x2="25" y2="300" stroke="#000" stroke-width="10" 
+						  style="animation: stroke ${chargingAniDuration}s linear infinite;"/>
                     <text x="15" y="330" font-size="20" class="label">Charging</text>
                     <text x="15" y="280" font-size="20" class="value">${chargingStr}</text>
                 </g>

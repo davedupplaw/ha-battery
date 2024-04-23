@@ -48,7 +48,6 @@ red up to 25%, orange up to 50% and green up to 100%.
 ## TODO:
 
 * Add support for single charge/discharge sensor
-* Adjust speed of ants based on dis/charge power
 * Add toggle options for some of the display elements
 * Add option to have charge cable on the right or discharge cable on left
 * Add colour configuration

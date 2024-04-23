@@ -5,6 +5,12 @@ function toWStr(x: number): string {
 	return x > 1000 ? `${(x / 1000).toFixed(2)} kW` : `${x.toFixed(0)} W`;
 }
 
+function easeInOutCubic(x: number): number {
+	return x < 0.5
+		? 4 * x * x * x
+		: 1 - Math.pow(-2 * x + 2, 3) / 2;
+}
+
 export function battery(inputs: BatteryCardConfig): TemplateResult<1> {
 	const socEntity: CardEntity = inputs.socEntity;
 	const kWhEntity: CardEntity = inputs.kWhEntity;
@@ -37,6 +43,9 @@ export function battery(inputs: BatteryCardConfig): TemplateResult<1> {
 	}
 
 	const showSocInBattery = inputs.showSocInBattery;
+
+	const chargingAniDuration = 1.2 - easeInOutCubic(Math.min(+chargingKw, 2000) / 2000);
+	const dischargingAniDuration = 1.2 - easeInOutCubic(Math.min(+dischargingKw, 2000) / 2000);
 
 	// console.log("Battery state:", soc, kWh, chargingKw, dischargingKw);
 
@@ -148,12 +157,14 @@ export function battery(inputs: BatteryCardConfig): TemplateResult<1> {
                     />
                 </defs>
                 <g class="out" style="opacity: ${+dischargingKw > 0 ? 1 : 0}">
-                    <line x1="220" y1="300" x2="330" y2="300" stroke="#000" stroke-width="10"/>
+                    <line x1="220" y1="300" x2="330" y2="300" stroke="#000" stroke-width="10" 
+						  style="animation: stroke ${dischargingAniDuration}s linear infinite;"/>
                     <text x="230" y="330" font-size="20" class="label">Discharging</text>
                     <text x="230" y="280" font-size="20" class="value">${dischargingStr}</text>
                 </g>
                 <g class="in" style="opacity: ${+chargingKw > 0 ? 1 : 0}">
-                    <line x1="-80" y1="300" x2="25" y2="300" stroke="#000" stroke-width="10"/>
+                    <line x1="-80" y1="300" x2="25" y2="300" stroke="#000" stroke-width="10" 
+						  style="animation: stroke ${chargingAniDuration}s linear infinite;"/>
                     <text x="15" y="330" font-size="20" class="label">Charging</text>
                     <text x="15" y="280" font-size="20" class="value">${chargingStr}</text>
                 </g>
