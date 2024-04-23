@@ -48,14 +48,16 @@ red up to 25%, orange up to 50% and green up to 100%.
 
 * Add support for single charge/discharge sensor
 * Add robustness against missing sensors
+* Adjust speed of ants based on dis/charge power
 * Add toggle options for some of the display elements
 * Add SOC in the battery itself
 * Add option to have charge cable on the right or discharge cable on left
 * Add colour configuration
-* Adjust speed of ants based on dis/charge power
 * i18n
 * Add sources/sinks for charge/discharge
 
 ## Credits
 
 The original battery image is public domain sourced here https://freesvg.org/three-battery-levels
+
+Also a shout out to the tutorials by Elmar Hinz which have been very useful: https://github.com/home-assistant-tutorials

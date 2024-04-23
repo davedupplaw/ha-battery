@@ -15,8 +15,8 @@ export function battery(inputs: BatteryCardConfig) {
     const size = (+soc / 100) * height;
     const topPos = maxPos - size;
 
-    const socStr = socEntity ? `${soc}%` : "";
-    const kWhStr = kWhEntity ? `(${kWh.toFixed(2)} kWh)` : "";
+    const socStr = soc ? `${soc}%` : "";
+    const kWhStr = kWh ? `(${kWh.toFixed(2)} kWh)` : "";
 
     const chargingKw = +inputs.chargeWEntity.state;
     const dischargingKw = +inputs.dischargeWEntity.state;
