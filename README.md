@@ -61,4 +61,4 @@ red up to 25%, orange up to 50% and green up to 100%.
 
 ## Credits
 
-The battery image is public domain sourced here https://freesvg.org/three-battery-levels
+The original battery image is public domain sourced here https://freesvg.org/three-battery-levels
