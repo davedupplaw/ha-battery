@@ -25,7 +25,7 @@ Can be installed via HACS by adding the repository URL to the custom repositorie
 | chargeWEntity    | sensor |              | The sensor that provides the charge power of the battery in W             |
 | sizePx           | number | 200          | The preferred height of the card in pixels                                |
 | colours          | string |              | The colours to use for the battery states. See below for details          |
-| showSocInBattery | boolean| true         | Whether to show the SOC in the battery itself                             |
+| showSocInBattery | boolean| true         | Whether to show the state of charge % in the battery itself               |
 
 ### Battery State Colours
 
@@ -48,10 +48,8 @@ red up to 25%, orange up to 50% and green up to 100%.
 ## TODO:
 
 * Add support for single charge/discharge sensor
-* Add robustness against missing sensors
 * Adjust speed of ants based on dis/charge power
 * Add toggle options for some of the display elements
-* Add SOC in the battery itself
 * Add option to have charge cable on the right or discharge cable on left
 * Add colour configuration
 * i18n
