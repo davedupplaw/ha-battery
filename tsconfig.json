@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "isolatedModules": true,
-    "target": "es2017",
+    "target": "es2015",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "useDefineForClassFields": false

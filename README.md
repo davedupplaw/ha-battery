@@ -17,15 +17,16 @@ Can be installed via HACS by adding the repository URL to the custom repositorie
 
 ## Options
 
-| Name             | Type   | Default      | Description                                                               |
-|------------------|--------|--------------|---------------------------------------------------------------------------|
-| socEntity        | sensor | **required** | The sensor that provides the state of charge of the battery in percentage |
-| kWhEntity        | sensor |              | The sensor that provides the state of charge of the battery in kWh        |
-| dischargeWEntity | sensor |              | The sensor that provides the discharge power of the battery in W          |
-| chargeWEntity    | sensor |              | The sensor that provides the charge power of the battery in W             |
-| sizePx           | number | 200          | The preferred height of the card in pixels                                |
-| colours          | string |              | The colours to use for the battery states. See below for details          |
-| showSocInBattery | boolean| true         | Whether to show the state of charge % in the battery itself               |
+| Name             | Type    | Default      | Description                                                                                                        |
+|------------------|---------|--------------|--------------------------------------------------------------------------------------------------------------------|
+| socEntity        | sensor  | **required** | The sensor that provides the state of charge of the battery in percentage                                          |
+| kWhEntity        | sensor  |              | The sensor that provides the state of charge of the battery in kWh                                                 |
+| dischargeWEntity | sensor  |              | The sensor that provides the discharge power of the battery in W. Use instead of the combined sensor.              |
+| chargeWEntity    | sensor  |              | The sensor that provides the charge power of the battery in W. Use instead of the combined sensor.                 |
+| combinedWEntity  | sensor  |              | The sensor that provides a charge/discharge power (negative for discharge) in W. Use instead of the above sensors. |
+| sizePx           | number  | 200          | The preferred height of the card in pixels                                                                         |
+| colours          | string  |              | The colours to use for the battery states. See below for details                                                   |
+| showSocInBattery | boolean | true         | Whether to show the state of charge % in the battery itself                                                        |
 
 ### Battery State Colours
 
@@ -35,9 +36,11 @@ part of the pair is the maximum value that the colour will be shown, while the s
 part of the pair is colour to show.
 
 For example:
+
 ```
 25:#aa0000
 ```
+
 represents that a red colour (#aa0000) will be shown when the SOC is less than 25%.
 
 The order is important and needs to be from lowest to highest.
@@ -47,7 +50,6 @@ red up to 25%, orange up to 50% and green up to 100%.
 
 ## TODO:
 
-* Add support for single charge/discharge sensor
 * Add toggle options for some of the display elements
 * Add option to have charge cable on the right or discharge cable on left
 * Add colour configuration

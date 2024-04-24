@@ -11,6 +11,9 @@ function easeInOutCubic(x: number): number {
 		: 1 - Math.pow(-2 * x + 2, 3) / 2;
 }
 
+// Battery dimensions in SVG units:
+// width:   44 -> 243 = 200
+// height: 465 -> 775 = 310
 export function battery(inputs: BatteryCardConfig): TemplateResult<1> {
 	const socEntity: CardEntity = inputs.socEntity;
 	const kWhEntity: CardEntity = inputs.kWhEntity;

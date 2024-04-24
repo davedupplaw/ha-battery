@@ -1493,111 +1493,20 @@ function $40c73a7282756518$export$3866196f8b775770(inputs) {
 }
 
 
-class $a399cc6bbb0eb26a$export$6c09f32188f2c974 extends (0, $ab210b2da7b39b9d$export$3f2f9f5909897157) {
-    static{
-        this.styles = (0, $b771d3736a62c4bc$export$2e2bcd8739ae039);
-    }
-    set hass(hass) {
-        this._hass = hass;
-        this._socEntity = this.updateEntity(this._socEntity);
-        this._kWhEntity = this.updateEntity(this._kWhEntity);
-        this._dischargeWEntity = this.updateEntity(this._dischargeWEntity);
-        this._chargeWEntity = this.updateEntity(this._chargeWEntity);
-        const cols = this._config.colours.split(",").map((x)=>{
-            let strings = x.split(":");
-            return {
-                upto: +strings[0],
-                colour: strings[1]
-            };
-        });
-        this._colour = (cols.find((col)=>col.upto >= +this._socEntity.state) || cols[cols.length - 1]).colour;
-    }
-    // noinspection JSUnusedGlobalSymbols
-    static getConfigElement() {
-        return document.createElement("battery-card-editor");
-    }
-    // noinspection JSUnusedGlobalSymbols
-    static getStubConfig() {
-        return {
-            socEntity: "",
-            kWhEntity: "",
-            dischargeWEntity: "",
-            chargeWEntity: "",
-            header: "Battery",
-            colours: "25:#aa0000,50:#ffaa00,100:#00ff00",
-            sizePx: 200,
-            showSocInBattery: true
-        };
-    }
-    // noinspection JSUnusedGlobalSymbols
-    setConfig(config) {
-        this._config = config;
-        this._header = config.header === "" ? undefined : config.header;
-        this._socEntity = config.socEntity === "" ? undefined : this.toEntity(config.socEntity);
-        this._kWhEntity = config.kWhEntity === "" ? undefined : this.toEntity(config.kWhEntity);
-        this._dischargeWEntity = config.dischargeWEntity === "" ? undefined : this.toEntity(config.dischargeWEntity);
-        this._chargeWEntity = config.chargeWEntity === "" ? undefined : this.toEntity(config.chargeWEntity);
-        console.log("Battery config updates:", config);
-        if (this._hass) this.hass = this._hass;
-    }
-    render() {
-        const content = !this._socEntity?.state ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <p class="error">${this._socEntity?.name} is unavailable.</p> ` : (0, $40c73a7282756518$export$3866196f8b775770)({
-            socEntity: this._socEntity,
-            kWhEntity: this._kWhEntity,
-            colour: this._colour,
-            dischargeWEntity: this._dischargeWEntity,
-            chargeWEntity: this._chargeWEntity,
-            sizePx: this._config.sizePx,
-            showSocInBattery: this._config.showSocInBattery
-        });
-        return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
-            <ha-card header="${this._header}">
-                <div class="card-content">${content}</div>
-            </ha-card>
-		`;
-    }
-    toEntity(entityName) {
-        return {
-            sensor: entityName,
-            name: entityName
-        };
-    }
-    updateEntity(entity) {
-        const state = this._hass.states[entity.sensor];
-        const fn = state?.attributes?.friendly_name;
-        entity.name = fn ? fn : entity.sensor;
-        entity.state = state?.state;
-        return {
-            ...entity
-        };
-    }
-}
-(0, $24c52f343453d62d$export$29e00dfd3077644b)([
-    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$6c09f32188f2c974.prototype, "_config", void 0);
-(0, $24c52f343453d62d$export$29e00dfd3077644b)([
-    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$6c09f32188f2c974.prototype, "_header", void 0);
-(0, $24c52f343453d62d$export$29e00dfd3077644b)([
-    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$6c09f32188f2c974.prototype, "_socEntity", void 0);
-(0, $24c52f343453d62d$export$29e00dfd3077644b)([
-    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$6c09f32188f2c974.prototype, "_kWhEntity", void 0);
-(0, $24c52f343453d62d$export$29e00dfd3077644b)([
-    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$6c09f32188f2c974.prototype, "_dischargeWEntity", void 0);
-(0, $24c52f343453d62d$export$29e00dfd3077644b)([
-    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$6c09f32188f2c974.prototype, "_chargeWEntity", void 0);
-(0, $24c52f343453d62d$export$29e00dfd3077644b)([
-    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $a399cc6bbb0eb26a$export$6c09f32188f2c974.prototype, "_colour", void 0);
 
 
 
-
-
+const $d067581fc0d59830$export$f84bd70098573c5c = {
+    socEntity: "",
+    kWhEntity: "",
+    dischargeWEntity: "",
+    chargeWEntity: "",
+    combinedWEntity: "",
+    header: "Battery",
+    colours: "25:#aa0000,50:#ffaa00,100:#00ff00",
+    sizePx: 200,
+    showSocInBattery: true
+};
 class $d067581fc0d59830$export$40be632222f2f3fe extends (0, $ab210b2da7b39b9d$export$3f2f9f5909897157) {
     static{
         // noinspection CssUnusedSymbol
@@ -1614,15 +1523,15 @@ class $d067581fc0d59830$export$40be632222f2f3fe extends (0, $ab210b2da7b39b9d$ex
             display: table-cell;
             padding: 0.5em;
         }
-    `;
-    }
-    // noinspection JSUnusedGlobalSymbols
-    setConfig(config) {
-        this._config = config;
+	`;
     }
     // noinspection JSUnusedGlobalSymbols
     set hass(hass) {
         this._hass = hass;
+    }
+    // noinspection JSUnusedGlobalSymbols
+    setConfig(config) {
+        this._config = config;
     }
     render() {
         const values = {
@@ -1631,10 +1540,11 @@ class $d067581fc0d59830$export$40be632222f2f3fe extends (0, $ab210b2da7b39b9d$ex
             "Battery SOC (%) Sensor": this._config.socEntity,
             "Battery SOC (kWh) Sensor": this._config.kWhEntity,
             "Battery Charge Rate (W) Sensor": this._config.chargeWEntity,
-            "Battery Discharge Rate (W) Sensor": this._config.dischargeWEntity
+            "Battery Discharge Rate (W) Sensor": this._config.dischargeWEntity,
+            "Combined Battery Charge Rate (W) Sensor": this._config.combinedWEntity
         };
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
-            <ha-form
+            <ha-form id="ha-battery-card-edit-form"
                     .hass=${this._hass}
                     .data=${values}
                     .schema=${[
@@ -1662,6 +1572,16 @@ class $d067581fc0d59830$export$40be632222f2f3fe extends (0, $ab210b2da7b39b9d$ex
                     entity: {}
                 }
             },
+            // {
+            //     name: "Charge Rate Sensor Type", selector: {
+            //         select: {
+            //             multiple: false, mode: "select", options: [
+            //                 {label: "Separate Sensors", value: "separate"},
+            //                 {label: "Combined Sensor", value: "combined"}
+            // 			]
+            //         }
+            //     }
+            // },
             {
                 name: "Battery Charge Rate (W) Sensor",
                 selector: {
@@ -1673,11 +1593,17 @@ class $d067581fc0d59830$export$40be632222f2f3fe extends (0, $ab210b2da7b39b9d$ex
                 selector: {
                     entity: {}
                 }
+            },
+            {
+                name: "Combined Battery Charge Rate (W) Sensor",
+                selector: {
+                    entity: {}
+                }
             }
         ]}
                     @value-changed=${this.handleChangedEvent}
             ></ha-form>
-        `;
+		`;
     }
     handleChangedEvent(changedEvent) {
         const details = changedEvent.detail;
@@ -1689,6 +1615,7 @@ class $d067581fc0d59830$export$40be632222f2f3fe extends (0, $ab210b2da7b39b9d$ex
         newConfig.kWhEntity = values["Battery SOC (kWh) Sensor"];
         newConfig.chargeWEntity = values["Battery Charge Rate (W) Sensor"];
         newConfig.dischargeWEntity = values["Battery Discharge Rate (W) Sensor"];
+        newConfig.combinedWEntity = values["Combined Battery Charge Rate (W) Sensor"];
         newConfig.sizePx = values["Preferred Height (px)"];
         const messageEvent = new CustomEvent("config-changed", {
             detail: {
@@ -1702,10 +1629,122 @@ class $d067581fc0d59830$export$40be632222f2f3fe extends (0, $ab210b2da7b39b9d$ex
 }
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $d067581fc0d59830$export$40be632222f2f3fe.prototype, "_hass", void 0);
+], $d067581fc0d59830$export$40be632222f2f3fe.prototype, "_config", void 0);
 (0, $24c52f343453d62d$export$29e00dfd3077644b)([
     (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
-], $d067581fc0d59830$export$40be632222f2f3fe.prototype, "_config", void 0);
+], $d067581fc0d59830$export$40be632222f2f3fe.prototype, "_hass", void 0);
+
+
+class $a399cc6bbb0eb26a$export$6c09f32188f2c974 extends (0, $ab210b2da7b39b9d$export$3f2f9f5909897157) {
+    static{
+        this.styles = (0, $b771d3736a62c4bc$export$2e2bcd8739ae039);
+    }
+    set hass(hass) {
+        this._hass = hass;
+        this.updateSensors();
+    }
+    // noinspection JSUnusedGlobalSymbols
+    static getConfigElement() {
+        return document.createElement("battery-card-editor");
+    }
+    // noinspection JSUnusedGlobalSymbols
+    static getStubConfig() {
+        return 0, $d067581fc0d59830$export$f84bd70098573c5c;
+    }
+    // noinspection JSUnusedGlobalSymbols
+    setConfig(config) {
+        this._config = config;
+        this._header = config.header === "" ? undefined : config.header;
+        this._socEntity = this.toEntity(config.socEntity);
+        this._kWhEntity = this.toEntity(config.kWhEntity);
+        this._dischargeWEntity = this.toEntity(config.dischargeWEntity);
+        this._chargeWEntity = this.toEntity(config.chargeWEntity);
+        this._combinedWEntity = this.toEntity(config.combinedWEntity);
+        if (this._hass) this.hass = this._hass;
+    }
+    render() {
+        const content = !this._socEntity?.state ? (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)` <p class="error">${this._socEntity?.name} is unavailable.</p> ` : (0, $40c73a7282756518$export$3866196f8b775770)({
+            socEntity: this._socEntity,
+            kWhEntity: this._kWhEntity,
+            colour: this._colour,
+            dischargeWEntity: this._dischargeWEntity ?? this.fakeEntity(-+this._combinedWEntity.state),
+            chargeWEntity: this._chargeWEntity ?? this.fakeEntity(this._combinedWEntity.state),
+            sizePx: this._config.sizePx,
+            showSocInBattery: this._config.showSocInBattery
+        });
+        return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
+            <ha-card header="${this._header}">
+                <div class="card-content">${content}</div>
+            </ha-card>
+		`;
+    }
+    updateSensors() {
+        this._socEntity = this.updateEntity(this._socEntity);
+        this._kWhEntity = this.updateEntity(this._kWhEntity);
+        this._dischargeWEntity = this.updateEntity(this._dischargeWEntity);
+        this._chargeWEntity = this.updateEntity(this._chargeWEntity);
+        this._combinedWEntity = this.updateEntity(this._combinedWEntity);
+        const cols = this._config.colours.split(",").map((x)=>{
+            let strings = x.split(":");
+            return {
+                upto: +strings[0],
+                colour: strings[1]
+            };
+        });
+        this._colour = (cols.find((col)=>col.upto >= +this._socEntity.state) || cols[cols.length - 1]).colour;
+    }
+    toEntity(entityName) {
+        if (!entityName) return undefined;
+        return {
+            sensor: entityName,
+            name: entityName
+        };
+    }
+    fakeEntity(state) {
+        return {
+            sensor: "",
+            name: "",
+            state: state
+        };
+    }
+    updateEntity(entity) {
+        if (entity) {
+            const state = this._hass.states[entity.sensor];
+            const fn = state?.attributes?.friendly_name;
+            entity.name = fn ? fn : entity.sensor;
+            entity.state = state?.state;
+            return {
+                ...entity
+            };
+        }
+        return undefined;
+    }
+}
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$6c09f32188f2c974.prototype, "_config", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$6c09f32188f2c974.prototype, "_header", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$6c09f32188f2c974.prototype, "_socEntity", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$6c09f32188f2c974.prototype, "_kWhEntity", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$6c09f32188f2c974.prototype, "_dischargeWEntity", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$6c09f32188f2c974.prototype, "_chargeWEntity", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$6c09f32188f2c974.prototype, "_combinedWEntity", void 0);
+(0, $24c52f343453d62d$export$29e00dfd3077644b)([
+    (0, $04c21ea1ce1f6057$export$ca000e230c0caa3e)()
+], $a399cc6bbb0eb26a$export$6c09f32188f2c974.prototype, "_colour", void 0);
+
 
 
 customElements.define("battery-card", (0, $a399cc6bbb0eb26a$export$6c09f32188f2c974));
