@@ -1256,7 +1256,78 @@ var $b771d3736a62c4bc$export$2e2bcd8739ae039 = (0, $def2de46b9306e8a$export$dbf3
         font-size: 12px;
         color: #888;
     }
+	
+	.hidden {
+		display: none
+	}
 `;
+
+
+
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const $107bb7d062dde330$export$9ba3b3f20a85bfa = {
+    ATTRIBUTE: 1,
+    CHILD: 2,
+    PROPERTY: 3,
+    BOOLEAN_ATTRIBUTE: 4,
+    EVENT: 5,
+    ELEMENT: 6
+}, $107bb7d062dde330$export$99b43ad1ed32e735 = (t)=>(...e)=>({
+            _$litDirective$: t,
+            values: e
+        });
+class $107bb7d062dde330$export$befdefbdce210f91 {
+    constructor(t){}
+    get _$AU() {
+        return this._$AM._$AU;
+    }
+    _$AT(t, e, i) {
+        this._$Ct = t, this._$AM = e, this._$Ci = i;
+    }
+    _$AS(t, e) {
+        return this.update(t, e);
+    }
+    update(t, e) {
+        return this.render(...e);
+    }
+}
+
+
+/**
+ * @license
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */ const $ca7e425cc484d5ff$export$56cc687933817664 = (0, $107bb7d062dde330$export$99b43ad1ed32e735)(class extends (0, $107bb7d062dde330$export$befdefbdce210f91) {
+    constructor(t){
+        var i;
+        if (super(t), t.type !== (0, $107bb7d062dde330$export$9ba3b3f20a85bfa).ATTRIBUTE || "class" !== t.name || (null === (i = t.strings) || void 0 === i ? void 0 : i.length) > 2) throw Error("`classMap()` can only be used in the `class` attribute and must be the only part in the attribute.");
+    }
+    render(t) {
+        return " " + Object.keys(t).filter((i)=>t[i]).join(" ") + " ";
+    }
+    update(i, [s]) {
+        var r, o;
+        if (void 0 === this.it) {
+            this.it = new Set, void 0 !== i.strings && (this.nt = new Set(i.strings.join(" ").split(/\s/).filter((t)=>"" !== t)));
+            for(const t in s)s[t] && !(null === (r = this.nt) || void 0 === r ? void 0 : r.has(t)) && this.it.add(t);
+            return this.render(s);
+        }
+        const e = i.element.classList;
+        this.it.forEach((t)=>{
+            t in s || (e.remove(t), this.it.delete(t));
+        });
+        for(const t in s){
+            const i = !!s[t];
+            i === this.it.has(t) || (null === (o = this.nt) || void 0 === o ? void 0 : o.has(t)) || (i ? (e.add(t), this.it.add(t)) : (e.remove(t), this.it.delete(t)));
+        }
+        return 0, $f58f44579a4747ac$export$9c068ae9cc5db4e8;
+    }
+});
+
 
 
 
@@ -1285,11 +1356,17 @@ function $40c73a7282756518$export$3866196f8b775770(inputs) {
     const dischargingStr = dischargingKw ? $40c73a7282756518$var$toWStr(+dischargingKw) : "";
     let chargingDeltaStr = "";
     let dischargingDeltaStr = "";
-    if (chargingKw && dischargingKw) {
+    const showChargeIndicators = inputs.showChargeIndicators;
+    if (showChargeIndicators && chargingKw && dischargingKw) {
         chargingDeltaStr = +chargingKw > +dischargingKw ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<polygon points="144,460 136,472 152,472" class="delta-up"/>` : ``;
         dischargingDeltaStr = +dischargingKw > +chargingKw ? (0, $f58f44579a4747ac$export$7ed1367e7fa1ad68)`<polygon points="144,472 136,460 152,460" class="delta-down"/>` : ``;
     }
     const showSocInBattery = inputs.showSocInBattery;
+    const showSocLabel = inputs.showSocLabel;
+    const labelClasses = {
+        charge: true,
+        hidden: !showSocLabel
+    };
     const chargingAniDuration = 1.2 - $40c73a7282756518$var$easeInOutCubic(Math.min(+chargingKw, 2000) / 2000);
     const dischargingAniDuration = 1.2 - $40c73a7282756518$var$easeInOutCubic(Math.min(+dischargingKw, 2000) / 2000);
     // console.log("Battery state:", soc, kWh, chargingKw, dischargingKw);
@@ -1487,7 +1564,7 @@ function $40c73a7282756518$export$3866196f8b775770(inputs) {
                     </g>
                 </g>
             </svg>
-            <div class="charge">Charge: ${socStr} <span>${kWhStr}</span></div>
+            <div class=${(0, $ca7e425cc484d5ff$export$56cc687933817664)(labelClasses)}>Charge: ${socStr} <span>${kWhStr}</span></div>
         </div>
 	`;
 }
@@ -1505,7 +1582,9 @@ const $d067581fc0d59830$export$f84bd70098573c5c = {
     header: "Battery",
     colours: "25:#aa0000,50:#ffaa00,100:#00ff00",
     sizePx: 200,
-    showSocInBattery: true
+    showSocInBattery: true,
+    showChargeIndicators: true,
+    showSocLabel: true
 };
 class $d067581fc0d59830$export$40be632222f2f3fe extends (0, $ab210b2da7b39b9d$export$3f2f9f5909897157) {
     static{
@@ -1541,7 +1620,18 @@ class $d067581fc0d59830$export$40be632222f2f3fe extends (0, $ab210b2da7b39b9d$ex
             "Battery SOC (kWh) Sensor": this._config.kWhEntity,
             "Battery Charge Rate (W) Sensor": this._config.chargeWEntity,
             "Battery Discharge Rate (W) Sensor": this._config.dischargeWEntity,
-            "Combined Battery Charge Rate (W) Sensor": this._config.combinedWEntity
+            "Combined Battery Charge Rate (W) Sensor": this._config.combinedWEntity,
+            "Display Toggles": [
+                ...this._config.showChargeIndicators ? [
+                    "showChargeIndicators"
+                ] : [],
+                ...this._config.showSocLabel ? [
+                    "showSOCLabel"
+                ] : [],
+                ...this._config.showSocInBattery ? [
+                    "showSOCInBattery"
+                ] : []
+            ]
         };
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
             <ha-form id="ha-battery-card-edit-form"
@@ -1599,6 +1689,29 @@ class $d067581fc0d59830$export$40be632222f2f3fe extends (0, $ab210b2da7b39b9d$ex
                 selector: {
                     entity: {}
                 }
+            },
+            {
+                name: "Display Toggles",
+                selector: {
+                    select: {
+                        multiple: true,
+                        mode: "list",
+                        options: [
+                            {
+                                label: "Show State of Charge Label",
+                                value: "showSOCLabel"
+                            },
+                            {
+                                label: "Show Charge/Discharge Indicators",
+                                value: "showChargeIndicators"
+                            },
+                            {
+                                label: "Show State of Charge on Battery",
+                                value: "showSOCInBattery"
+                            }
+                        ]
+                    }
+                }
             }
         ]}
                     @value-changed=${this.handleChangedEvent}
@@ -1609,6 +1722,7 @@ class $d067581fc0d59830$export$40be632222f2f3fe extends (0, $ab210b2da7b39b9d$ex
         const details = changedEvent.detail;
         const target = changedEvent.target;
         const newConfig = Object.assign({}, this._config);
+        // console.log("details:", details);
         const values = details.value;
         newConfig.header = target.value;
         newConfig.socEntity = values["Battery SOC (%) Sensor"];
@@ -1617,6 +1731,9 @@ class $d067581fc0d59830$export$40be632222f2f3fe extends (0, $ab210b2da7b39b9d$ex
         newConfig.dischargeWEntity = values["Battery Discharge Rate (W) Sensor"];
         newConfig.combinedWEntity = values["Combined Battery Charge Rate (W) Sensor"];
         newConfig.sizePx = values["Preferred Height (px)"];
+        newConfig.showChargeIndicators = values["Display Toggles"].includes("showChargeIndicators");
+        newConfig.showSocLabel = values["Display Toggles"].includes("showSOCLabel");
+        newConfig.showSocInBattery = values["Display Toggles"].includes("showSOCInBattery");
         const messageEvent = new CustomEvent("config-changed", {
             detail: {
                 config: newConfig
@@ -1670,7 +1787,9 @@ class $a399cc6bbb0eb26a$export$6c09f32188f2c974 extends (0, $ab210b2da7b39b9d$ex
             dischargeWEntity: this._dischargeWEntity ?? this.fakeEntity(-+this._combinedWEntity.state),
             chargeWEntity: this._chargeWEntity ?? this.fakeEntity(this._combinedWEntity.state),
             sizePx: this._config.sizePx,
-            showSocInBattery: this._config.showSocInBattery
+            showSocInBattery: this._config.showSocInBattery,
+            showSocLabel: this._config.showSocLabel,
+            showChargeIndicators: this._config.showChargeIndicators
         });
         return (0, $f58f44579a4747ac$export$c0bb0b647f701bb5)`
             <ha-card header="${this._header}">

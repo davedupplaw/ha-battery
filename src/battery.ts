@@ -1,4 +1,5 @@
 import {html, svg, TemplateResult} from "lit";
+import {classMap} from 'lit/directives/class-map.js';
 import {BatteryCardConfig, CardEntity} from './card';
 
 function toWStr(x: number): string {
@@ -40,15 +41,19 @@ export function battery(inputs: BatteryCardConfig): TemplateResult<1> {
 	let chargingDeltaStr: TemplateResult<2> | "" = "";
 	let dischargingDeltaStr: TemplateResult<2> | "" = "";
 
-	if (chargingKw && dischargingKw) {
+	const showChargeIndicators: boolean = inputs.showChargeIndicators;
+	if (showChargeIndicators && chargingKw && dischargingKw) {
 		chargingDeltaStr = +chargingKw > +dischargingKw ? svg`<polygon points="144,460 136,472 152,472" class="delta-up"/>` : ``;
 		dischargingDeltaStr = +dischargingKw > +chargingKw ? svg`<polygon points="144,472 136,460 152,460" class="delta-down"/>` : ``;
 	}
 
-	const showSocInBattery = inputs.showSocInBattery;
+	const showSocInBattery: boolean = inputs.showSocInBattery;
+	const showSocLabel: boolean = inputs.showSocLabel;
 
-	const chargingAniDuration = 1.2 - easeInOutCubic(Math.min(+chargingKw, 2000) / 2000);
-	const dischargingAniDuration = 1.2 - easeInOutCubic(Math.min(+dischargingKw, 2000) / 2000);
+	const labelClasses: {} = { charge: true, hidden: !showSocLabel }
+
+	const chargingAniDuration: number = 1.2 - easeInOutCubic(Math.min(+chargingKw, 2000) / 2000);
+	const dischargingAniDuration: number = 1.2 - easeInOutCubic(Math.min(+dischargingKw, 2000) / 2000);
 
 	// console.log("Battery state:", soc, kWh, chargingKw, dischargingKw);
 
@@ -246,7 +251,7 @@ export function battery(inputs: BatteryCardConfig): TemplateResult<1> {
                     </g>
                 </g>
             </svg>
-            <div class="charge">Charge: ${socStr} <span>${kWhStr}</span></div>
+            <div class=${classMap(labelClasses)}>Charge: ${socStr} <span>${kWhStr}</span></div>
         </div>
 	`;
 }

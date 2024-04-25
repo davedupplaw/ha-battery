@@ -20,6 +20,8 @@ export interface BatteryCardConfig {
 	colour: string;
 	sizePx: number;
 	showSocInBattery: boolean;
+	showSocLabel: boolean;
+	showChargeIndicators: boolean;
 }
 
 export class BatteryCard extends LitElement {
@@ -73,7 +75,9 @@ export class BatteryCard extends LitElement {
 				dischargeWEntity: this._dischargeWEntity ?? this.fakeEntity(-+this._combinedWEntity.state),
 				chargeWEntity: this._chargeWEntity ?? this.fakeEntity(this._combinedWEntity.state),
 				sizePx: this._config.sizePx,
-				showSocInBattery: this._config.showSocInBattery
+				showSocInBattery: this._config.showSocInBattery,
+				showSocLabel: this._config.showSocLabel,
+				showChargeIndicators: this._config.showChargeIndicators,
 			});
 
 		return html`

@@ -82,4 +82,8 @@ export default css`
         font-size: 12px;
         color: #888;
     }
+	
+	.hidden {
+		display: none
+	}
 `;

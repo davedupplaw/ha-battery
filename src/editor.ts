@@ -12,6 +12,8 @@ export interface BatteryCardEditorConfig {
 	colours: string;
 	sizePx: number;
 	showSocInBattery: boolean;
+	showSocLabel: boolean;
+	showChargeIndicators: boolean;
 }
 
 export const defaultConfig: BatteryCardEditorConfig = {
@@ -23,7 +25,9 @@ export const defaultConfig: BatteryCardEditorConfig = {
 	header: "Battery",
 	colours: "25:#aa0000,50:#ffaa00,100:#00ff00",
 	sizePx: 200,
-	showSocInBattery: true
+	showSocInBattery: true,
+	showChargeIndicators: true,
+	showSocLabel: true,
 };
 
 export class BatteryCardEditor extends LitElement {
@@ -65,6 +69,11 @@ export class BatteryCardEditor extends LitElement {
 			"Battery Charge Rate (W) Sensor": this._config.chargeWEntity,
 			"Battery Discharge Rate (W) Sensor": this._config.dischargeWEntity,
 			"Combined Battery Charge Rate (W) Sensor": this._config.combinedWEntity,
+			"Display Toggles": [
+				...(this._config.showChargeIndicators ? ["showChargeIndicators"] : []),
+				...(this._config.showSocLabel ? ["showSOCLabel"] : []),
+				...(this._config.showSocInBattery ? ["showSOCInBattery"] : []),
+			]
 		};
 
 		return html`
@@ -89,19 +98,17 @@ export class BatteryCardEditor extends LitElement {
                         {name: "Battery Charge Rate (W) Sensor", selector: {entity: {}}},
                         {name: "Battery Discharge Rate (W) Sensor", selector: {entity: {}}},
                         {name: "Combined Battery Charge Rate (W) Sensor", selector: {entity: {}}},
-                        // {name: "battery_sensor", selector: {entity: {device_class: "battery"}}},
-                        // {
-                        //     name: "show_bars", selector: {
-                        //         select: {
-                        //             multiple: true, mode: "list", options: [
-                        //                 {label: "Label 1", value: "bar1"},
-                        //                 {label: "Label 2", value: "bar2"},
-                        //                 {label: "Another Label", value: "bar3"},
-                        //                 {label: "What now?", value: "bar4"},
-                        //             ]
-                        //         }
-                        //     }
-                        // }
+                        {
+                            name: "Display Toggles", selector: {
+                                select: {
+                                    multiple: true, mode: "list", options: [
+                                        {label: "Show State of Charge Label", value: "showSOCLabel"},
+                                        {label: "Show Charge/Discharge Indicators", value: "showChargeIndicators"},
+                                        {label: "Show State of Charge on Battery", value: "showSOCInBattery"},
+                                    ]
+                                }
+                            }
+                        }
                     ]}
                     @value-changed=${this.handleChangedEvent}
             ></ha-form>
@@ -112,6 +119,7 @@ export class BatteryCardEditor extends LitElement {
 		const details = (changedEvent as any).detail;
 		const target: HTMLFormElement = changedEvent.target as HTMLFormElement;
 		const newConfig: BatteryCardEditorConfig = Object.assign({}, this._config);
+		// console.log("details:", details);
 
 		const values = details.value;
 		newConfig.header = target.value;
@@ -121,6 +129,9 @@ export class BatteryCardEditor extends LitElement {
 		newConfig.dischargeWEntity = values["Battery Discharge Rate (W) Sensor"];
 		newConfig.combinedWEntity = values["Combined Battery Charge Rate (W) Sensor"];
 		newConfig.sizePx = values["Preferred Height (px)"];
+		newConfig.showChargeIndicators = values["Display Toggles"].includes("showChargeIndicators");
+		newConfig.showSocLabel = values["Display Toggles"].includes("showSOCLabel");
+		newConfig.showSocInBattery = values["Display Toggles"].includes("showSOCInBattery");
 
 		const messageEvent = new CustomEvent("config-changed", {
 			detail: {config: newConfig},
